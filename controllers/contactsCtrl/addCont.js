@@ -5,7 +5,7 @@ const addCont = async (req, res, next) => {
     const { error } = joiSchema.validate(req.body);
     if (error) {
       error.status = 400;
-      error.message = "Missing required name field";
+      error.message = "Missing required field";
       throw error;
     }
 

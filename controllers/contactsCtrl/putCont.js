@@ -1,13 +1,7 @@
-const { Contact, joiSchema } = require("../../models/contactModel");
+const { Contact } = require("../../models/contactModel");
 
 const putCont = async (req, res, next) => {
   try {
-    const { error } = joiSchema.validate(req.body);
-    if (error) {
-      error.status = 400;
-      error.message = "Missing required name field";
-      throw error;
-    }
     const { contactId } = req.params;
     const contact = await Contact.findByIdAndUpdate(contactId, req.body, {
       new: true,

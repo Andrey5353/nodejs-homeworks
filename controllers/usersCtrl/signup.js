@@ -1,20 +1,26 @@
-const { User, joiSchema } = require("../../models/userModel");
+const { User } = require("../../models/userModel");
+const bcrypt = require("bcryptjs");
 
 const signup = async (req, res, next) => {
   try {
-    const { error } = joiSchema.validate(req.body);
-    if (error) {
-      error.status = 400;
-      error.message = "Missing required field";
-      throw error;
+    const { name, email, password } = req.body;
+    const user = await User.findOne({ email });
+    if (user) {
+      return res.status(409).json({
+        code: 409,
+        message: `Email ${email} in use`,
+      });
     }
-
-    const result = await User.create(req.body);
-    res.status(200).json({
-      status: "seccess",
-      code: 200,
+    const hashPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
+    await User.create({ name, email, password: hashPassword });
+    res.status(201).json({
+      status: "created",
+      code: 201,
       data: {
-        result,
+        user: {
+          email: `${email}`,
+          subscription: "starter",
+        },
       },
     });
   } catch (error) {

@@ -1,15 +1,16 @@
 const express = require("express");
 const router = express.Router();
-
+const { validation } = require("../../middlewares/index");
 const { contacts: ctrl } = require("../../controllers/index");
+const { joiSchema } = require("../../models/contactModel");
 
 router.get("/", ctrl.getAll);
 
 router.get("/:contactId", ctrl.getById);
 
-router.post("/", ctrl.addCont);
+router.post("/", validation(joiSchema), ctrl.addCont);
 
-router.put("/:contactId", ctrl.putCont);
+router.put("/:contactId", validation(joiSchema), ctrl.putCont);
 
 router.patch("/:contactId/favorite", ctrl.patchCont);
 

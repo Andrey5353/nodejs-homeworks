@@ -1,8 +1,9 @@
-const { Contact, joiSchema } = require("../../models/contactModel");
+const { Contact } = require("../../models/contactModel");
 
 const addCont = async (req, res, next) => {
   try {
-    const result = await Contact.create(req.body);
+    const { _id } = req.user;
+    const result = await Contact.create({ ...req.body, owner: _id });
     res.status(200).json({
       status: "seccess",
       code: 200,

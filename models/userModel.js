@@ -33,8 +33,6 @@ const joiSignupSchema = Joi.object({
   name: Joi.string().required(),
   email: Joi.string().email().required(),
   password: Joi.string().required(),
-  // subscription: Joi.string().required(),
-  // token: Joi.string().required(),
 });
 
 const joiLoginSchema = Joi.object({

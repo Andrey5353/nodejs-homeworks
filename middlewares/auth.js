@@ -22,7 +22,8 @@ const auth = async (req, res, next) => {
         message: "Not authorized",
       });
     }
-    req.user = user;
+    const { name, email, _id } = user;
+    req.user = { name, email, _id };
     next();
   } catch (error) {
     if (error.message === "Invalid sugnature") {

@@ -1,8 +1,15 @@
 const express = require("express");
 const router = express.Router();
-const { auth } = require("../../middlewares/index");
-const { current: ctrl } = require("../../controllers/index");
+const { auth, upload } = require("../../middlewares/index");
+const { avatar, current } = require("../../controllers/index");
 
-router.get("/current", auth, ctrl.getCurrent);
+router.get("/current", auth, current.getCurrent);
+
+router.patch(
+  "/avatars",
+  auth,
+  upload.single("avatar"),
+  avatar.uploadAvatarCtrl
+);
 
 module.exports = router;
